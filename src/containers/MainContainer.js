@@ -8,17 +8,26 @@ class MainContainer extends Component {
   render() {
     return (
       <div>
-        <SearchBar/>
+        {/* can only sort once each, need to send back event target to revert other radio buttonchecked to null? */}
+        <SearchBar 
+          sortAlphabetically={this.props.sortAlphabetically}
+          sortByPrice={this.props.sortByPrice}
+          sortStocks={this.props.sortStocks}
+          filterStocks={this.props.filterStocks} />
 
           <div className="row">
             <div className="col-8">
 
-              <StockContainer/>
+              <StockContainer
+                stocks={this.props.stocks}
+                handleOnClick={this.props.handleOnClick} />
 
             </div>
             <div className="col-4">
 
-              <PortfolioContainer/>
+              <PortfolioContainer
+                portfolioStocks={this.props.portfolioStocks}
+                handleOnClick={this.props.handleOnClick} />
 
             </div>
           </div>

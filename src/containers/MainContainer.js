@@ -17,12 +17,6 @@ class MainContainer extends Component {
   componentDidMount(){
     fetch("http://localhost:3000/stocks")
     .then(resp => resp.json())
-    // .then(stockData => {
-    //   this.setState({ 
-    //     stocks: stockData,
-    //     stocksDisplay: stockData
-    //   })
-    // })
     .then(stockData => {
       let revStockData = stockData.map( stock => { return {...stock, tracking: false} })
       this.setState({ 
@@ -33,31 +27,6 @@ class MainContainer extends Component {
   }
 
   toggleTracking = (clickedStock, panel) => {
-    // THIS WILL ALLOW YOU TO CLICK EITHER PANEL TO ADD OR REMOVE 
-    // let currentTracking = this.state.stocksTracking 
-    // if (currentTracking.includes(clickedStock)) {
-    //   let stockIndex = this.state.stocksTracking.indexOf(clickedStock)
-    //   this.state.stocksTracking.splice(stockIndex, 1)
-    // } else { 
-    //   this.state.stocksTracking.push(clickedStock)
-    // }
-    // let updatedStocksTracking = this.state.stocksTracking
-    // this.setState({
-    //   stocksTracking: updatedStocksTracking
-    // })
-
-    // THIS WILL ALLOW YOU TO ADD MULTIPLE THOUGH
-    // if (panel === "stocks"){
-    //   this.state.stocksTracking.push(clickedStock)
-    // } else if (panel === "portfolio") { 
-    //   let stockIndex = this.state.stocksTracking.indexOf(clickedStock)
-    //   this.state.stocksTracking.splice(stockIndex, 1)
-    // }
-    // let updatedStocksTracking = this.state.stocksTracking
-    // this.setState({
-    //   stocksTracking: updatedStocksTracking
-    // })
-
     if (!clickedStock.tracking && panel === "stocks"){
       clickedStock.tracking = !clickedStock.tracking
       this.state.stocksTracking.push(clickedStock)
@@ -65,7 +34,28 @@ class MainContainer extends Component {
       clickedStock.tracking = !clickedStock.tracking
       let stockIndex = this.state.stocksTracking.indexOf(clickedStock)
       this.state.stocksTracking.splice(stockIndex, 1)
-    } else { return } //
+    } else { return } 
+    let updatedStocksTracking = this.state.stocksTracking
+    this.setState({
+      stocksTracking: updatedStocksTracking
+    })
+  }
+
+  // Instead of a toggle, do a function for adding, a function for deleting. 
+  // pass different functions from containers to stocks
+  // dont need to add attribute of tracking or not 
+  trackStock = (clickedStock) => {
+    if (!this.state.stocksTracking.includes(clickedStock)){
+      this.state.stocksTracking.push(clickedStock)
+      let updatedStocksTracking = this.state.stocksTracking
+      this.setState({
+        stocksTracking: updatedStocksTracking
+      })
+    } 
+  }
+  untrackStock = (clickedStock) => {
+    let stockIndex = this.state.stocksTracking.indexOf(clickedStock)
+    this.state.stocksTracking.splice(stockIndex, 1)
     let updatedStocksTracking = this.state.stocksTracking
     this.setState({
       stocksTracking: updatedStocksTracking
@@ -116,10 +106,14 @@ class MainContainer extends Component {
         <SearchBar handleSort={this.handleSort} handleFilter={this.handleFilter}/>
           <div className="row">
             <div className="col-8">
-              <StockContainer stocks={this.state.stocksDisplay} toggleTracking={this.toggleTracking}/>
+              {/* <StockContainer stocks={this.state.stocksDisplay} toggleTracking={this.toggleTracking}/> */}
+              <StockContainer stocks={this.state.stocksDisplay} track={this.trackStock}/>
+
             </div>
             <div className="col-4">
-              <PortfolioContainer tracking={this.state.stocksTracking} toggleTracking={this.toggleTracking}/>
+              {/* <PortfolioContainer tracking={this.state.stocksTracking} toggleTracking={this.toggleTracking}/> */}
+              <PortfolioContainer tracking={this.state.stocksTracking} untrack={this.untrackStock}/>
+
             </div>
           </div>
       </div>

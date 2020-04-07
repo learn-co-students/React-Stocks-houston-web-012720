@@ -13,7 +13,8 @@ class PortfolioContainer extends Component {
                 stock={stock} 
                 key={stock.id} 
                 panel="portfolio"
-                toggleTracking={this.props.toggleTracking}/>
+                // toggleTracking={this.props.toggleTracking} 
+                toggleTracking={this.props.untrack}/>
             )
           }
       </div>

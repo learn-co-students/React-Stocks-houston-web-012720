@@ -12,7 +12,8 @@ class StockContainer extends Component {
             <Stock 
               stock={stock} 
               panel="stocks"
-              toggleTracking={this.props.toggleTracking} 
+              // toggleTracking={this.props.toggleTracking} 
+              toggleTracking={this.props.track}
               key={stock.id}/>
           )
         }

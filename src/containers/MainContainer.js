@@ -26,6 +26,7 @@ class MainContainer extends Component {
     })
   }
 
+  // instead of adding an attribute i can just check for panel and if it already included
   toggleTracking = (clickedStock, panel) => {
     if (!clickedStock.tracking && panel === "stocks"){
       clickedStock.tracking = !clickedStock.tracking
